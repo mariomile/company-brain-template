@@ -20,3 +20,4 @@ Ops: `init` `capture` `meeting` `decision` `promote` `verify` `triage` `review` 
 ## [2026-10-22 18:26] new | person: CRM/People/No Company.md | brain-script
 ## [2026-10-22 18:26] ask | what did we decide on pricing? | agent | answered
 ## [2026-10-22 18:26] ask | What did we decide on pricing | agent | gap
+## [2026-10-22 18:26] archive | 14 sample note(s) moved to .archive/ | brain-script
