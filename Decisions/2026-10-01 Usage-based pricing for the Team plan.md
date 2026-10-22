@@ -1,9 +1,10 @@
 ---
+sample: true
 status: accepted
 decided: 2026-10-01
 decider: "[[Ada Rossi]]"
 project: none
-source: "[[Input/Meetings/2026-09-30 Pricing review]]"
+source: "pricing review meeting, 2026-09-30 (no minutes)"
 supersedes: 
 review_due: 2027-04-01
 confidentiality: internal

@@ -2,34 +2,37 @@
 tags:
   - type/living
   - domain/customers
-owner: "[[Ada Rossi]]"
-review_due: 2027-01-13
-last_verified: 2026-10-15
+owner: "[[{{owner-customers}}]]"
+review_due: {{review-date}}
+last_verified: {{today}}
 confidentiality: confidential
 up: "[[Company]]"
-last_updated: 2026-10-15
+last_updated: {{today}}
 ---
 # Customers
 
-> Who buys, why, how they use the product, and what they tell us. Accounts are in `CRM/Companies/`; feedback in `Input/Feedback/`; this is the synthesis.
+> Who buys, why, how they use the product, and what they tell us. Accounts are in `CRM/Companies/`; feedback in `Input/Feedback/`; this is the synthesis. What they use is in [[Product]].
 
 ## Now
 
-- 38 paying workspaces, 6 on Enterprise [source: billing export 2026-10-01; since: 2026-10-01]
-- ICP: B2B SaaS, 20 to 200 people, a PM who owns metrics and no data engineer [source: [[2026-10-15 Adopt the company brain]]; since: 2026-10-15]
-- Top churn reason: never reached first insight (onboarding) [source: [[Input/Feedback/2026-10-10 Northwind onboarding stalled]], 4 exit interviews Q3; since: 2026-10-10]
+*Current facts as dated lines with a source: number of customers or accounts, the ideal customer profile in one line, the top reason customers leave or never start. Source: the billing export, the CRM, sales and support calls.*
+
+- 
 
 ## Segments
 
+*Who buys, one row per segment: the role, the company size, the trigger that makes them look for us, what they need. Give each segment a tag `customer/<segment>`. Source: sales calls, the CRM.*
+
 | Segment | Tag | Who | What they need |
 |---|---|---|---|
-| SMB SaaS | `customer/smb` | 20 to 60 people | setup in a day, templates |
-| Mid-market SaaS | `customer/midmarket` | 60 to 200 | SSO, roles, data export |
+| {{segment}} | `customer/{{segment-tag}}` | {{who}} | {{need}} |
 
 ## What they say
 
-Themes will live in `Knowledge/Customers/` with a `_MOC Customers` once feedback passes 50 notes. Until then, the feedback view: `_system/views/feedback.base`.
+*The themes from feedback, support and interviews, each linking to its notes. Source: `Input/Feedback/`, support tickets, customer interviews. Once feedback passes 50 notes, themes move to `Knowledge/Customers/` with a `_MOC Customers`; until then the feedback view is `_system/views/feedback.base`.*
 
 ## Timeline
 
-- 2026-10-15: document created from the onboarding interview
+*Dated changes in who the customers are: first customer, new segment, notable wins and losses. Source: the CRM, the founders.*
+
+- {{today}}: created from the template.

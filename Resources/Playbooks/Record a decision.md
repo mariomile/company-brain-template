@@ -2,9 +2,9 @@
 tags:
   - type/playbook
   - domain/knowledge
-owner: "[[Ada Rossi]]"
-review_due: 2027-04-15
-last_verified: 2026-10-15
+owner: "[[{{owner-brain}}]]"
+review_due: {{review-date}}
+last_verified: {{today}}
 applies_to: ["everyone"]
 confidentiality: internal
 ---
@@ -22,7 +22,7 @@ confidentiality: internal
 2. Fill Context with facts and sources, Options with the ones actually considered, the Decision in one paragraph, Consequences honestly, Revisit when as conditions.
 3. Write the dissent in the dissenter's words. Empty is a fact.
 4. Set `status: accepted` and `decider`. If it replaces an older decision, set `supersedes` and mark the old one `status: superseded`.
-5. Link it from the project note's Decisions section and, if it changes a living document, add the dated fact line there.
+5. Link it from the project note's Decisions section and, if it changes a living document (for example [[Company]] or [[Product]]), add the dated fact line there.
 
 ## Done when
 

@@ -1,4 +1,5 @@
 ---
+sample: true
 date: 2026-10-14
 project: "[[Onboarding Redesign]]"
 attendees: ["[[Ada Rossi]]", "[[Ben Okafor]]"]

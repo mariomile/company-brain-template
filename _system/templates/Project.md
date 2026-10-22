@@ -1,7 +1,7 @@
 ---
 project: "{{title}}"
 status: active
-owner: "[[{{owner}}]]"
+owner: {{owner_link}}
 review_due: {{review_due}}
 last_verified: {{today}}
 started: {{today}}
@@ -29,7 +29,7 @@ last_updated: {{today}}
 
 ## People
 
-- Owner: [[{{owner}}]]
+- Owner: {{owner_ref}}
 - Team: 
 - Stakeholders: 
 

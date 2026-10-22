@@ -25,7 +25,7 @@ A living document is a promise that its content is true today. The owner keeps t
 
 ## Verification
 
-- Never set `last_verified` yourself. Only the owner verifies, in the `verify` flow: they confirm the content, you set `last_verified` to today and `review_due` to today plus the cadence in `object-schema.md`.
+- `last_verified` is set once, when the note is created. After that never change it yourself: only the owner verifies, through the verify flow (`brain verify <note> --by "[[Owner]]"`), after they confirmed the content in this conversation. The script sets `last_verified` to today and `review_due` to today plus the cadence in `object-schema.md`.
 - A document past `review_due` is **stale**: say so in one line when you cite it, and keep using it (stale is not false).
 - A document past twice its cadence: the weekly review proposes `status: paused` and names the owner. Never silently.
 

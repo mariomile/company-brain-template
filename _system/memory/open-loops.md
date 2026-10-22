@@ -5,7 +5,7 @@ last_updated: {{today}}
 ---
 # Open loops
 
-Commitments and follow-ups that cross sessions. One block per loop. Agents read the loops that touch their topic before working and update them in the same turn. Closed loops move to `.archive/_system/open-loops-closed.md` by the consolidation run.
+Commitments and follow-ups that cross sessions. One block per loop. Agents read the loops that touch their topic before working and update them in the same turn. Closed loops move, unchanged, to `open-loops-closed.md` (the librarian run does it weekly, or do it by hand).
 
 Format:
 

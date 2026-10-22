@@ -1,6 +1,11 @@
-# Markdown merges line by line; most knowledge conflicts resolve by keeping both.
-*.md text eol=lf merge=union
+# Line endings: LF everywhere, so the script and Obsidian agree on every machine.
+*.md text eol=lf
 *.base text eol=lf
 *.canvas text eol=lf
+*.json text eol=lf
+# Append-only files: two people appending at once keep both lines.
+_system/log.md merge=union
+_system/memory/open-loops.md merge=union
+# Every other note merges normally: a real conflict stops and asks, instead of silently keeping both sides.
 # Attachments are binary.
 Resources/_attachments/** binary

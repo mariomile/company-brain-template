@@ -1,7 +1,7 @@
 ---
 date: {{date}}
 channel: {{channel}}
-customer: "[[{{customer}}]]"
+customer: {{customer_link}}
 person: 
 product_area: product/{{area}}
 sentiment: neutral

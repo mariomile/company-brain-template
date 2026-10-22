@@ -1,9 +1,9 @@
 ---
 status: proposed
-decided: {{today}}
-decider: "[[{{decider}}]]"
-project: "[[{{project}}]]"
-source: "[[{{source}}]]"
+decided: {{date}}
+decider: {{decider_link}}
+project: {{project_link}}
+source: {{source_link}}
 supersedes: 
 review_due: 
 confidentiality: internal

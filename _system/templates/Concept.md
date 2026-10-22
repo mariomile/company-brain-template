@@ -3,7 +3,7 @@ tags:
   - type/concept
   - domain/{{domain}}
 status: active
-up: "[[_MOC {{domain_title}}]]"
+up: {{up_link}}
 source: 
 ---
 # {{title}}

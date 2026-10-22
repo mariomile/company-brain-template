@@ -1,6 +1,6 @@
 ---
 date: {{date}}
-project: "[[{{project}}]]"
+project: {{project_link}}
 attendees: []
 source: 
 confidentiality: internal

@@ -6,7 +6,7 @@ industry:
 stage: 
 website: 
 location: 
-owner: "[[{{owner}}]]"
+owner: {{owner_link}}
 customer_of: 
 partner_of: 
 competitor_of: 

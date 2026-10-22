@@ -1,30 +1,27 @@
 # CODEOWNERS for the company brain.
-# Each line: path pattern, then the GitHub handles that must review changes there.
-# Replace the placeholders. The owner of a living document is also written in its
-# frontmatter (`owner:`); keep the two in sync, this file is what GitHub enforces.
+#
+# Two lanes. Day-to-day knowledge (inputs, minutes, decisions as proposed, CRM,
+# projects, journal, the log) goes straight to main: `brain sync` pulls, commits
+# and pushes. What changes how the company works or how the brain works goes
+# through a pull request reviewed by its owner: the paths below.
+#
+# GitHub enforces this only through pull requests. If you turn on "Require review
+# from Code Owners", also allow direct pushes for the people who use the brain,
+# or every meeting note will need a pull request. Replace the placeholders.
 
 # Contracts and structure: a change here is a decision.
-/AGENTS.md                 @{{owner-brain}}
-/CLAUDE.md                 @{{owner-brain}}
-/CODEOWNERS                @{{owner-brain}}
-/_system/                  @{{owner-brain}}
+/AGENTS.md                         @{{owner-brain}}
+/CLAUDE.md                         @{{owner-brain}}
+/CODEOWNERS                        @{{owner-brain}}
+/_system/Brain\ Blueprint.md       @{{owner-brain}}
+/_system/_tags.md                  @{{owner-brain}}
+/_system/object-schema.md          @{{owner-brain}}
+/_system/brain.config.json         @{{owner-brain}}
+/_system/memory/rules/             @{{owner-brain}}
+/_system/automations/              @{{owner-brain}}
+/.github/                          @{{owner-brain}}
 
-# Living documents of the company.
-/Knowledge/Company/        @{{owner-company}}
-/Resources/Policies/       @{{owner-company}}
-/Resources/Playbooks/      @{{owner-ops}}
-
-# Decisions: the people who can accept one on the record.
-/Decisions/                @{{owner-company}} @{{owner-brain}}
-
-# Domain knowledge, one owner per domain.
-/Knowledge/Product/        @{{owner-product}}
-/Knowledge/Customers/      @{{owner-product}}
-/Knowledge/Market/         @{{owner-company}}
-/Knowledge/Engineering/    @{{owner-engineering}}
-/Knowledge/Operations/     @{{owner-ops}}
-
-# Relationships.
-/CRM/                      @{{owner-company}}
-
-# Everything else (inputs, projects, journal, output) needs no mandatory review.
+# Living documents and policies of the company.
+/Knowledge/Company/                @{{owner-company}}
+/Resources/Policies/               @{{owner-company}}
+/Resources/Playbooks/              @{{owner-ops}}

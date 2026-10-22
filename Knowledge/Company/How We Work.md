@@ -2,31 +2,35 @@
 tags:
   - type/living
   - domain/people
-owner: "[[Ada Rossi]]"
-review_due: 2027-01-13
-last_verified: 2026-10-15
+owner: "[[{{owner-company}}]]"
+review_due: {{review-date}}
+last_verified: {{today}}
 confidentiality: internal
 up: "[[Company]]"
-last_updated: 2026-10-15
+last_updated: {{today}}
 ---
 # How We Work
 
-> Rituals, tools, and the rules of engagement for people and agents. Policies with teeth are in `Resources/Policies/`; procedures in `Resources/Playbooks/`.
+> Rituals, tools, and the rules of engagement for people and agents. Policies with teeth are in `Resources/Policies/` (for example [[Confidentiality and data]]); procedures in `Resources/Playbooks/` (for example [[Record a decision]]).
 
 ## Rituals
 
+*The recurring meetings and reviews: what, when, who owns it, and what it leaves in the brain (minutes, decisions, an updated `NOW.md`). Source: the team calendar, a founder interview.*
+
 | Ritual | When | Owner | Leaves in the brain |
 |---|---|---|---|
-| Weekly product sync | Tue 10:00 | [[Ben Okafor]] | minutes in `Input/Meetings/` |
-| Monthly business review | first Monday | [[Ada Rossi]] | decisions in `Decisions/`, `NOW.md` updated |
-| Weekly review of the brain | Fri 16:00 (automation) | brain curator | `Journal/Weekly/` |
+| {{ritual}} | {{when}} | [[{{owner}}]] | {{output}} |
 
 ## Tools
+
+*The tools the team uses for chat, tickets, meetings, documents and the codebase, one line each, and where their output lands in the brain. Source: a founder interview, the admin pages of each tool.*
 
 - Brain: this repository, in Obsidian or any editor; agents via Claude Code, Exo or Cowork.
 - Chat: {{tool}}. Tickets: {{tool}}. Meetings recorded with {{tool}}, synced to `Input/Meetings/Granola/` (read-only).
 
 ## Rules of engagement
+
+*The working agreements the team actually follows: how questions are answered, how decisions are recorded, what counts as done, how agents and people split the work. Keep the ones below if the team adopts them; change them if not. Source: a founder interview.*
 
 - Brain-first: a question about the company is answered from the brain before anyone is pinged. If the brain does not know, the answer goes into the brain.
 - Decisions are recorded the day they are taken, by whoever took them, from the template.
@@ -36,4 +40,6 @@ last_updated: 2026-10-15
 
 ## Timeline
 
-- 2026-10-15: created
+*Dated changes in how the team works: a new ritual, a tool switch, a rule changed. Source: the founders, `Decisions/`.*
+
+- {{today}}: created from the template.

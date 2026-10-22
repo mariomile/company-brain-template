@@ -1,4 +1,5 @@
 ---
+sample: true
 tags:
   - type/index
   - domain/product

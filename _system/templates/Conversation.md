@@ -1,7 +1,7 @@
 ---
 date: {{date}}
 channel: {{channel}}
-project: "[[{{project}}]]"
+project: {{project_link}}
 participants: []
 source: 
 confidentiality: internal
