@@ -21,3 +21,15 @@ Ops: `init` `capture` `meeting` `decision` `promote` `verify` `triage` `review` 
 ## [2026-10-22 18:26] ask | what did we decide on pricing? | agent | answered
 ## [2026-10-22 18:26] ask | What did we decide on pricing | agent | gap
 ## [2026-10-22 18:26] archive | 14 sample note(s) moved to .archive/ | brain-script
+## [2026-10-22 18:27] new | decision: Decisions/2026-10-22 Test decision.md | brain-script
+## [2026-10-22 18:27] new | project: Active/Projects/Test Project/Test Project.md | brain-script
+## [2026-10-22 18:27] new | person: CRM/People/Test Person.md | brain-script
+## [2026-10-22 18:27] verify | Knowledge/Company/Product.md verified by [[Ben Okafor]], next review 2027-01-20 | Ben Okafor
+## [2026-10-22 18:27] index | regenerated 4 index file(s) | brain-script
+## [2026-10-22 18:27] capture | unit test | test
+## [2026-10-22 18:27] new | project: Active/Projects/Cadence Project/Cadence Project.md | brain-script
+## [2026-10-22 18:27] new | concept: Knowledge/Product/Foo Bar.md | brain-script
+## [2026-10-22 18:27] new | decision: Decisions/2026-03-04 No project.md | brain-script
+## [2026-10-22 18:27] new | person: CRM/People/No Company.md | brain-script
+## [2026-10-22 18:27] ask | what did we decide on pricing? | agent | answered
+## [2026-10-22 18:27] ask | What did we decide on pricing | agent | gap
