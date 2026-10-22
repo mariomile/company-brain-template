@@ -1,6 +1,6 @@
 # AGENTS.md: the contract for every agent working in this brain
 
-This repository is the **company brain** of `{{company}}`: the shared, versioned,
+This repository is the **company brain** of `Acme`: the shared, versioned,
 Markdown memory of the organization. Humans and AI agents read it before they
 work and write back to it after. It belongs to the company, not to any tool.
 

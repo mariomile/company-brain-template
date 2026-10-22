@@ -3,11 +3,12 @@ tags:
   - type/living
   - domain/product
 owner: "[[{{owner-product}}]]"
-review_due: {{review-date}}
-last_verified: {{today}}
+review_due: 2027-01-20
+last_verified: 2026-10-22
 confidentiality: internal
 up: "[[Company]]"
-last_updated: {{today}}
+last_updated: 2026-10-22
+last_edited_by: "[[Ben Okafor]]"
 ---
 # Product
 
