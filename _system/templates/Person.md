@@ -3,8 +3,8 @@ tags:
   - type/person
   - crm/{{relationship}}
 role: 
-company: "[[{{company}}]]"
-works_at: "[[{{company}}]]"
+company: {{company_link}}
+works_at: {{company_link}}
 reports_to: 
 email: 
 linkedin: 

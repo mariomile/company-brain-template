@@ -1,7 +1,8 @@
 name: brain-health
 
 # Runs the structural checks of the company-brain plugin on every pull request
-# and once a week. It never edits the brain: it reports.
+# and once a week. It never edits the brain: it reports, in the run summary.
+# It fails only on errors (root intrusion, secrets, rule cap, invalid config).
 
 on:
   pull_request:
@@ -18,9 +19,11 @@ jobs:
         with:
           node-version: "22"
       - name: Fetch the company-brain plugin
-        run: git clone --depth 1 https://github.com/mariomile/company-brain ../company-brain
+        run: git clone --depth 1 https://github.com/mariomile/company-brain "$RUNNER_TEMP/company-brain"
       - name: Health check
-        run: node ../company-brain/scripts/brain.mjs health --strict
-      - name: Review calendar
-        if: github.event_name != 'pull_request'
-        run: node ../company-brain/scripts/brain.mjs stale
+        run: |
+          B="node $RUNNER_TEMP/company-brain/scripts/brain.mjs"
+          $B health | tee -a "$GITHUB_STEP_SUMMARY"
+          echo >> "$GITHUB_STEP_SUMMARY"
+          $B stale | sed 's/^/    /' >> "$GITHUB_STEP_SUMMARY"
+          $B health --strict > /dev/null

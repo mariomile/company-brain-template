@@ -1,4 +1,5 @@
 ---
+sample: true
 date: 2026-10-10
 channel: support
 customer: "[[Northwind Logistics]]"

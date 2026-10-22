@@ -57,7 +57,7 @@ Decisions/    The decision log: context, options, choice, consequences, review
 Active/       Work in progress with an outcome: projects and goals
 Output/       What the company produces and delivers
 Journal/      The time trace: daily and weekly team log
-Resources/    Reusable tools: templates, playbooks, policies, attachments
+Resources/    Reusable tools: playbooks, policies, attachments
 _system/      The machine layer: agent kernel, memory, rules, views, automations
 .archive/     History. Never delete, always archive.
 ```
@@ -95,12 +95,11 @@ Normative table: an agent decides where to write by reading only this.
 | `Active/Goals/` | OKRs, targets, north star | tasks | leadership, agents by proposal |
 | `Output/` | deliverables without a project home; `_artifacts/` for self-contained HTML | drafts, work in progress | agents, people |
 | `Journal/Daily/` | the team's daily log: what happened, agent lines | permanent content (promote it) | people and agents |
-| `Journal/Weekly/` | the weekly review note | — | the review automation |
-| `Resources/Templates/` | note templates for people | — | the brain owner |
+| `Journal/Weekly/` | the weekly review note | n/a | the review automation |
 | `Resources/Playbooks/` | how we do recurring things: runbooks, procedures | policies | process owners |
 | `Resources/Policies/` | rules of the company: security, expenses, communication | procedures | leadership |
-| `_system/` | agent kernel, memory, rules, indices, views, automations, templates for agents | human reading material | agents, the brain owner |
-| `.archive/` | everything inactive, same relative path | — | move only, never edit |
+| `_system/` | agent kernel, memory, rules, indices, views, automations, note templates, sources | human reading material | agents, the brain owner |
+| `.archive/` | everything inactive, same relative path | n/a | move only, never edit |
 
 ---
 
@@ -123,7 +122,7 @@ status: active         # PROPERTY, never a tag. Only where a lifecycle makes sen
 - **`#type/*`**: the universal axis, always present. The full set is in `_tags.md`.
 - **`#domain/*`**: the thematic axis, cross-folder. The values are yours (section 8).
 
-**Status is a property, never a tag.** Values: `active · backlog · done · draft · paused · archived`, plus `superseded` (decisions) and `disproven` (concepts, references).
+**Status is a property, never a tag.** The allowed values per type are in one table, in `object-schema.md`.
 
 **Forbidden namespaces**, each tried and removed in the reference vault, not theorized:
 
@@ -144,7 +143,7 @@ This is the one structural addition a company brain makes to a personal one.
 |---|---|---|---|
 | `owner` | every living document, project note, playbook, policy | `"[[Person]]"` | the person accountable for the note being true |
 | `review_due` | same | `YYYY-MM-DD` | the date after which the note is stale until re-verified. Default cadence per type in `object-schema.md` |
-| `last_verified` | same | `YYYY-MM-DD` | when the owner last confirmed the content. Set when re-verifying; bump `review_due` by the cadence |
+| `last_verified` | same | `YYYY-MM-DD` | when the owner last confirmed the content. Set once when the note is created, then only by the owner through the verify flow (`brain verify`), which also bumps `review_due` by the cadence |
 | `confidentiality` | any note; default `internal` if absent | `public · internal · confidential · restricted` | what the note may be quoted into. See the policy below |
 | `audience` | `restricted` notes | list of `"[[Person]]"` or role names | who may see the content |
 | `source` | inputs, decisions, facts derived from somewhere | `"[[note]]"` or URL or `chat YYYY-MM-DD` | provenance. A fact without a source is an opinion |
@@ -187,17 +186,17 @@ What distinguishes an *agentic* company brain from a well-ordered wiki: the memo
 ```
 _system/
 ├── agent/            shared kernel: SOUL.md · ORG.md · NOW.md
-├── agents/           complete bundles: <slug>/SOUL.md · AGENT.md
 ├── memory/
-│   ├── rules/        approved behaviors (max 8), loaded just-in-time
-│   ├── agents/       dedicated memory per agent, a few lines each
-│   ├── inbox/        transit of automatic memory, emptied by consolidation
-│   └── open-loops.md commitments across sessions
-├── indices/          navigable indices: projects, domains, people
+│   ├── rules/                 approved behaviors (max 8), loaded just-in-time
+│   ├── open-loops.md          commitments across sessions
+│   └── open-loops-closed.md   the record of closed ones
+├── indices/          generated indices: projects, decisions, people, companies, domains
 ├── views/            .base files: the query layer over everything else
-├── automations/      scheduled runs: when, mode, scope, prompt
-├── templates/        templates agents use
-├── reports/          what automations wrote: briefs, reviews, health
+├── automations/      scheduled runs, one file each: when, mode, scope, skill, prompt, lessons
+├── templates/        note templates, for people (Obsidian) and agents (brain new)
+├── reports/          what automations wrote: briefs, health, proposals
+├── sources.md        connected sources and how far each was read
+├── log.md            append-only operations log
 └── _tags.md · object-schema.md · brain-context.md · Brain Blueprint.md   ← the contracts
 ```
 
@@ -217,31 +216,31 @@ verified work
   └── knowledge ............ the canonical note in Knowledge/
 ```
 
-The memory grows in canonical notes. Agents capture during work (add, update with a dated trace, or ignore), the consolidation run empties the transit and deduplicates, the brief shows what was written. No parallel register. Rules are born only with a decision and within the cap of 8.
+The memory grows in canonical notes. Agents capture during work (add, update with a dated trace, or ignore) straight into the canonical note; what has no obvious home goes to `_inbox/` for triage; the brief shows what was written. No parallel register. Rules are born only with a decision and within the cap of 8.
 
 ### Autonomy ladder
 
-Every automation and every agent declares a `mode`. The ladder is climbed one step at a time, per automation, after its output has been trusted for a few runs:
+Every automation declares a `mode`, and that is the only autonomy setting. The ladder is climbed one step at a time, per automation, by decision of the brain owner, after two weeks of output accepted as it was:
 
 | Mode | Writes | When to use |
 |---|---|---|
-| `report` | nothing in the brain; a report in `_system/reports/` | first weeks of any automation; briefs |
-| `propose` | proposals with ready-to-apply prompts, in `_system/reports/` | reviews, triage with ambiguity |
-| `act` | within its declared `scope:` globs only, with a commit per run | triage, indices, consolidation, meeting minutes |
+| `report` | its report in `_system/reports/`, one line in the daily note | first weeks of any automation; briefs |
+| `propose` | proposals in `_system/reports/proposals/` (`status: open`, an `owner`), plus the files its `scope:` names | reviews, triage, minutes, ingest |
+| `act` | within its declared `scope:` globs only | indices, health report, then triage and minutes once trusted |
 
-An automation in `act` mode never touches a living document's body: it proposes. The guard hook enforces `scope:` when the runtime passes it.
+An automation in `act` mode never touches a living document's body: it proposes. After every run, `brain scope <automation>` lists any changed file outside the scope; the scheduled workflow fails the run and opens nothing if there is one. Proposals are read in the daily brief until a person sets them `applied` or `rejected`.
 
 ### Multi-agent, multi-person: the brain belongs to no tool
 
 1. **The universal contract is `AGENTS.md`.** `CLAUDE.md` is a short adapter, never a second source of truth.
-2. **Common boot, progressive loading.** An agent with pre-injected context verifies what it already received; a cold agent reads `AGENTS.md` → kernel → rule index → bundle → project note.
+2. **Common boot, progressive loading.** An agent with pre-injected context verifies what it already received; a cold agent reads `AGENTS.md` → kernel → rule index → the automation file (on a scheduled run) → project note.
 3. **Root guard.** Nothing new at the root, ever. A folder that appears at the root is a signal of intrusion: an agent without the rules wrote the generic default (`notes/`, `docs/`, `output/`). Find out who wrote it before deciding what to do with the content.
-4. **Precedence on conflicts:** current request → `AGENTS.md` and applicable rules → shared kernel → specialist contract → canonical memory → agent memory → runtime memory.
-5. **Concurrency.** Agents write small, additive, dated changes and commit per run. Two agents never run in `act` mode on overlapping `scope:` at the same time. Living documents change by pull request; `merge=union` in `.gitattributes` keeps both sides of a conflict for the owner to resolve.
+4. **Precedence on conflicts:** current request → `AGENTS.md` and applicable rules → shared kernel → the automation file → canonical memory → runtime memory.
+5. **Concurrency.** Agents write small, additive, dated changes. Day-to-day knowledge (inputs, minutes, proposed decisions, CRM, projects, journal) goes straight to main with `brain sync`: pull, commit, push. Living documents, policies and contracts change by pull request reviewed by their owner (`CODEOWNERS`). Only the append-only files (`_system/log.md`, `open-loops.md`) merge with `union`; any other conflict stops and asks, and `brain health` flags duplicate frontmatter keys if one slipped through. Two automations never run in `act` mode on overlapping `scope:` at the same time.
 
-### Complete agents and adapters
+### Automations and agents
 
-An agent is a bundle `_system/agents/<slug>/` with `SOUL.md` and `AGENT.md`, plus `_system/memory/agents/<slug>.md`. Adapters in `.claude/agents/` (if any) only point the runtime at the bundle. Exo reads the bundle directly.
+A scheduled role is one file in `_system/automations/`: when, mode, scope, the skill it runs, the prompt, and a short `## Lessons` section for what the run learned about doing its job here. The plugin's agents (`company-brain:brain-*`) are adapters that load the same skills in a delegated context. Exo reads the automation files directly. Nothing about a role is written twice.
 
 ### Contracts per scope
 
@@ -275,37 +274,21 @@ Errors actually paid for, not hypotheses.
 
 | Element | Kernel (portable) | Instance (yours) |
 |---|---|---|
-| The ten top-level folders | ✅ identical for every company | — |
-| Subfolders of `Input/`, `Output/`, `CRM/`, `Resources/` | ✅ | — |
+| The ten top-level folders | ✅ identical for every company | n/a |
+| Subfolders of `Input/`, `Output/`, `CRM/`, `Resources/` | ✅ | n/a |
 | Domains in `Knowledge/` | the convention | ❌ the domains reflect the business |
-| `#type/*` | ✅ full set | — |
+| `#type/*` | ✅ full set | n/a |
 | `#domain/*` | the namespace | ❌ the values |
 | Tier 2 (`crm/*`, `customer/*`) | `crm/*` | the rest depends on the business |
 | Governance properties | ✅ the set and the policy | ❌ owners, cadences, audiences |
 | `_system/` memory schema | ✅ folders and lifecycle | ❌ contents |
 | `_system/agent/` | ✅ the three files as templates | ❌ identity, people, priorities |
-| Contracts (`_tags.md`, `object-schema.md`) | ✅ with values to customize | — |
+| Contracts (`_tags.md`, `object-schema.md`) | ✅ with values to customize | n/a |
 | `.base` views | ✅ base set | your specific views |
-| Agents and automations | ✅ the six bundles, all `report` or `propose` by default | which ones you enable, and in which mode |
+| Automations | ✅ six files, all disabled; `report` or `propose`, except the librarian (`act` on indices and the health report only) | which ones you enable, and in which mode |
 | Living documents in `Knowledge/Company/` | ✅ the five files and their sections | ❌ the content |
 
-**This template = kernel + empty instance**: complete structure, filled contracts, one sample project, one MOC, a handful of fictional notes to show the graph, and zero real content. Whoever receives it must be able to write the first note within a minute without having read this file. The `onboard` skill of the plugin interviews the team and fills the instance.
-
-### Personal brain vs company brain
-
-Same primitives, different governance.
-
-| | Personal brain | Company brain |
-|---|---|---|
-| Ownership | yours, follows you between jobs | the organization's |
-| Heart | memory, decisions, point of view | living documents, customer knowledge, decision log |
-| `CRM/` | personal network | accounts and stakeholders |
-| `Knowledge/` | your concepts | shared domain, terminology |
-| `Journal/` | personal daily | operational log, meetings |
-| Governance | you are the only author | review: who writes, who approves |
-| Main risk | accumulation without synthesis | drift between documents and reality |
-
-The company brain adds **one structural requirement**: living documents have a declared owner and a review date. The rest of the kernel is identical, which is why someone with a personal brain already knows how to build the company one.
+**This template = kernel + empty instance**: complete structure, filled contracts, the living documents as skeletons with `{{placeholders}}`, and a handful of fictional sample notes (a company called Lumen Analytics, each marked `sample: true`) so the graph has something to show. Whoever receives it must be able to write the first note within a minute without having read this file. The `onboard` skill of the plugin drafts the instance from the company's own material, confirms it with the team, and archives the samples (`brain samples --archive`).
 
 ---
 
@@ -315,7 +298,7 @@ Invariants. The first three have no exceptions; the others carry their reason so
 
 1. **Never files or folders at the root** (except the contract files). A new root folder is a signal of intrusion.
 2. **Never delete**: archive.
-3. **Synced sources: graph-additive only.**
+3. **Synced sources are read-only.** Link to them from new notes; never edit them.
 4. **Every new note has 1 to 4 tags.** Without tags it does not compose.
 5. **Living documents carry `owner` and `review_due`.** Without them nobody keeps them true.
 6. **Ask before overwriting** what was not asked for.
@@ -332,6 +315,7 @@ The loop, and who runs each step:
 
 | Step | What happens | Who | Cadence |
 |---|---|---|---|
+| **Ingest** | new material is pulled from the connected sources listed in `_system/sources.md` | the `ingest` skill and automation | daily |
 | **Capture** | everything enters raw: meetings, documents, conversations, chat | people, syncs, the `capture` and `meeting` skills | continuous |
 | **Compile** | inputs become minutes, decisions, facts in living documents, CRM updates | agents during work; the triage automation | same turn, daily |
 | **Query** | questions answered from the brain with citations; gaps named | the `ask` skill | on demand |
@@ -339,15 +323,16 @@ The loop, and who runs each step:
 | **Maintain** | links, tags, indices, orphans, root guard, secrets | the librarian automation, the guard hook, CI | on write, weekly |
 | **Verify** | living documents past `review_due` go back to their owner | the health check, the brief, the owner | per cadence |
 | **Review** | what the brain learned this week, what is stale, up to 5 proposals | the weekly review automation | weekly |
-| **Measure** | notes updated, decisions recorded, `Input:Knowledge`, stale living docs, answered-from-brain rate, reverts | the health script, the weekly review | weekly |
+| **Measure** | notes updated, decisions recorded, questions answered and gaps, `Input:Knowledge`, stale living docs, open proposals, reverts | `brain metrics`, the weekly review | weekly |
 | **Evolve** | structure, tags, rules and automations change by decision | the brain owner | when a decision says so |
 
-**Metrics that mean something** (the health script computes them):
+**Metrics that mean something** (`brain metrics` computes them):
 
 - *Living documents stale*: count and oldest. Target: zero past twice the cadence.
 - *Input : Knowledge ratio*: see section 5.
 - *Orphans and broken links*: trend, not absolute.
 - *Decisions per week*: a company that takes decisions and records none has a brain that does not know why things are the way they are.
+- *Questions answered from the brain*: of the questions the `ask` skill logged, how many were answered with sources. Gaps and questions asked twice say what to write next.
 - *Meetings with minutes*: of the meetings synced this week, how many have a minutes note. Target 80%.
 - *Reverts of agent writes*: above 10% of writes for two weeks, lower the autonomy of that automation.
 

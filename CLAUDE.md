@@ -8,9 +8,9 @@ rule or precedence.
 
 - **With the `company-brain` plugin installed:** the session-start hook injects
   the `using-company-brain` skill and a briefing (stale documents, inbox,
-  loops due). Do not re-read what it injected. Load just-in-time only the rule
-  whose trigger matches, the specialist you were asked to be, and the note of
-  the project you work on.
+  loops due, proposals waiting). Do not re-read what it injected. Load
+  just-in-time only the rule whose trigger matches, your automation file on a
+  scheduled run, and the note of the project you work on.
 - **Without the plugin (cold boot):** run the boot in `AGENTS.md`.
 - **Inside Exo:** the kernel (`SOUL`, `ORG`, `NOW`) is pre-injected. The
   surface is Exo; keep that identity.
@@ -18,16 +18,16 @@ rule or precedence.
 ## Boundaries
 
 - `.claude/` is a runtime surface: change it only when a person asks.
-- Files in `.claude/agents/` are adapters. The canonical agent lives in
-  `_system/agents/<slug>/`; never duplicate its prompt, memory or policy.
-- Subagents do not call each other unless the bundle's `can_call` allows it.
-  The coordinator synthesizes.
+- The plugin's agents are adapters over its skills; a scheduled role is its
+  automation file. Never copy a prompt, a policy or a memory into a second place.
+- Subagents do not call each other. The coordinator synthesizes.
 
 ## Tooling
 
 - Prefer Obsidian-aware tools when available: they preserve wikilinks, tags and
   frontmatter. Otherwise plain file tools are fine; the guard hook enforces the
-  root, archive, read-only and secrets rules on every write.
+  root, archive, read-only and secrets rules on every Write and Edit. It does
+  not see shell commands: never use the shell to get around it.
 - Search: the plugin's `brain` script for structure, `rg` for content.
 
 @AGENTS.md

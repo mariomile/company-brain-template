@@ -1,0 +1,146 @@
+name: brain-routines
+
+# Runs the automations in _system/automations/ on a schedule with Claude Code.
+# An automation runs only if its file says `enabled: true`: turning one on is a
+# one-line change reviewed like any other.
+#
+# What lands where:
+#   report mode   the report is committed to main and posted as a comment on one
+#                 rolling issue per automation ("Brain: Morning Brief").
+#   propose, act  the changes go to a branch and a pull request; CODEOWNERS asks
+#                 the right owners to review. Nothing reaches main unreviewed.
+# Every run is checked with `brain scope`: a change outside the automation's
+# scope fails the run and nothing lands.
+#
+# Setup: add the repository secret ANTHROPIC_API_KEY (or CLAUDE_CODE_OAUTH_TOKEN
+# from `claude setup-token`), and in Settings > Actions > General allow GitHub
+# Actions to create pull requests. Cron times are UTC: shift them to your day.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"    # inbox-triage, then morning-brief
+    - cron: "30 17 * * 1-5"  # meeting-minutes
+    - cron: "0 18 * * 1-5"   # ingest
+    - cron: "0 14 * * 5"     # weekly-review
+    - cron: "0 7 * * 1"      # librarian
+  workflow_dispatch:
+    inputs:
+      automation:
+        description: "Automation to run now (runs even if disabled)"
+        type: choice
+        required: true
+        options: [morning-brief, inbox-triage, meeting-minutes, ingest, weekly-review, librarian]
+
+concurrency:
+  group: brain-routines
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      automations: ${{ steps.pick.outputs.automations }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: pick
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+          MANUAL: ${{ inputs.automation }}
+        run: |
+          case "$SCHEDULE" in
+            "0 6 * * 1-5")   LIST="inbox-triage morning-brief" ;;
+            "30 17 * * 1-5") LIST="meeting-minutes" ;;
+            "0 18 * * 1-5")  LIST="ingest" ;;
+            "0 14 * * 5")    LIST="weekly-review" ;;
+            "0 7 * * 1")     LIST="librarian" ;;
+            *)               LIST="" ;;
+          esac
+          OUT=()
+          if [ -n "$MANUAL" ]; then OUT+=("$MANUAL"); fi
+          for a in $LIST; do
+            f="_system/automations/$a.md"
+            if [ -f "$f" ] && grep -qE '^enabled:[[:space:]]*true' "$f"; then OUT+=("$a"); else echo "skip $a (not enabled)"; fi
+          done
+          printf '%s\n' "${OUT[@]}" | jq -R . | jq -cs 'map(select(length > 0))' > list.json
+          echo "automations=$(cat list.json)" >> "$GITHUB_OUTPUT"
+
+  run:
+    needs: plan
+    if: needs.plan.outputs.automations != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        automation: ${{ fromJSON(needs.plan.outputs.automations) }}
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      AUTO: ${{ matrix.automation }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Fetch the company-brain script
+        run: git clone --depth 1 https://github.com/mariomile/company-brain "$RUNNER_TEMP/company-brain"
+      - name: Build the prompt
+        id: prompt
+        run: |
+          git pull --ff-only
+          MODE=$(grep -m1 -E '^mode:' "_system/automations/$AUTO.md" | sed -E 's/^mode:[[:space:]]*//')
+          NAME=$(grep -m1 -E '^name:' "_system/automations/$AUTO.md" | sed -E 's/^name:[[:space:]]*//')
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          {
+            echo "text<<BRAIN_PROMPT_EOF"
+            node "$RUNNER_TEMP/company-brain/scripts/brain.mjs" run "$AUTO"
+            echo "BRAIN_PROMPT_EOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          plugin_marketplaces: https://github.com/mariomile/company-brain.git
+          plugins: company-brain@company-brain
+          prompt: ${{ steps.prompt.outputs.text }}
+          claude_args: |
+            --max-turns 40
+            --allowedTools "Read,Glob,Grep,Write,Edit,MultiEdit,Bash(node:*),Bash(git status:*),Bash(git diff:*),Bash(git log:*)"
+      - name: Check the scope
+        run: node "$RUNNER_TEMP/company-brain/scripts/brain.mjs" scope "$AUTO"
+      - name: Land the changes
+        env:
+          MODE: ${{ steps.prompt.outputs.mode }}
+          NAME: ${{ steps.prompt.outputs.name }}
+          BASE: ${{ github.event.repository.default_branch }}
+        run: |
+          git config user.name "brain-routines[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -z "$(git status --porcelain)" ]; then echo "Nothing changed."; exit 0; fi
+          DAY=$(date -u +%F)
+          REPORT=$(git status --porcelain -uall -- _system/reports | awk '{print $NF}' | grep '\.md$' | head -n 1 || true)
+          git add -A
+          git commit -qm "brain: $AUTO $DAY"
+          if [ "$MODE" = "report" ]; then
+            git push origin "HEAD:$BASE"
+            if [ -n "$REPORT" ]; then
+              TITLE="Brain: $NAME"
+              NUM=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title --jq ".[] | select(.title == \"$TITLE\") | .number" | head -n 1)
+              [ -n "$NUM" ] || NUM=$(gh issue create --title "$TITLE" --body "Rolling issue: each run of this automation adds a comment." | grep -oE '[0-9]+$')
+              gh issue comment "$NUM" --body-file "$REPORT"
+            fi
+          else
+            BR="brain/$AUTO-$(date -u +%Y%m%d-%H%M)"
+            git push origin "HEAD:refs/heads/$BR"
+            gh pr create --base "$BASE" --head "$BR" --title "Brain: $NAME $DAY" \
+              --body "Proposals and changes from the $NAME automation ($MODE mode). Review each file; merge what is true, close the rest. Proposals marked applied or rejected stop showing in the daily brief."
+          fi

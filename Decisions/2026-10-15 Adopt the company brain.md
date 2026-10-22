@@ -1,4 +1,5 @@
 ---
+sample: true
 status: accepted
 decided: 2026-10-15
 decider: "[[Ada Rossi]]"

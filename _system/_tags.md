@@ -48,11 +48,10 @@ Inferred from the folder, but always written in the tags so views and search wor
 | `type/goal` | goal, OKR, target | `Active/Goals/` |
 | `type/task` | a unit of execution with its own note (rare; most tasks are checkboxes in the project note) | `Active/Projects/<Name>/` |
 | `type/output` | finished deliverable, wherever it lives | `Output/`, `Active/Projects/*/` |
-| `type/template` | reusable template | `Resources/Templates/`, `_system/templates/` |
+| `type/template` | note template | `_system/templates/` |
 | `type/playbook` | how we do a recurring thing | `Resources/Playbooks/` |
 | `type/policy` | a rule of the company | `Resources/Policies/` |
-| `type/memory` | agent memory file | `_system/memory/` |
-| `type/agent` | agent contract | `_system/agents/` |
+| `type/memory` | open loops and their record | `_system/memory/` |
 | `type/automation` | scheduled run definition | `_system/automations/` |
 | `type/report` | what an automation wrote | `_system/reports/` |
 | `type/reference` | system reference and contracts | `_system/` |

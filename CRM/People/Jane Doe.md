@@ -1,4 +1,5 @@
 ---
+sample: true
 tags:
   - type/person
   - crm/customer

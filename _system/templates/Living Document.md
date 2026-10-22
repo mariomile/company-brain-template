@@ -2,7 +2,7 @@
 tags:
   - type/living
   - domain/{{domain}}
-owner: "[[{{owner}}]]"
+owner: {{owner_link}}
 review_due: {{review_due}}
 last_verified: {{today}}
 confidentiality: internal

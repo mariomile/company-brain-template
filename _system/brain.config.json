@@ -11,8 +11,7 @@
   ],
   "readonly": [
     "Input/Meetings/Granola/**",
-    "Input/**/Raw/**",
-    ".archive/**"
+    "Input/**/Raw/**"
   ],
   "living_docs": [
     "Knowledge/Company/**",
@@ -26,17 +25,16 @@
     "type/playbook": 180,
     "type/policy": 365,
     "type/project": 14,
-    "type/goal": 90,
-    "type/index": 30
+    "type/goal": 90
   },
   "moc_threshold": 50,
   "input_knowledge_ratio_warn": 2.0,
   "max_rules": 8,
-  "max_agent_memory_lines": 40,
   "secret_patterns": [
-    "(?i)(api[_-]?key|secret|token|password)\\s*[:=]\\s*['\"]?[A-Za-z0-9_\\-]{16,}",
-    "sk-[A-Za-z0-9]{20,}",
+    "(?i)(api[_-]?key|secret|token|password|passwd)[\"']?\\s*[:=]\\s*[\"']?(?=[A-Za-z0-9_\\-]*[0-9])(?=[A-Za-z0-9_\\-]*[A-Za-z])[A-Za-z0-9_\\-]{20,}",
+    "sk-[A-Za-z0-9_\\-]{20,}",
     "ghp_[A-Za-z0-9]{30,}",
+    "github_pat_[A-Za-z0-9_]{30,}",
     "xox[baprs]-[A-Za-z0-9-]{10,}",
     "AKIA[0-9A-Z]{16}",
     "-----BEGIN [A-Z ]*PRIVATE KEY-----"
