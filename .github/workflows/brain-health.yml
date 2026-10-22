@@ -1,0 +1,26 @@
+name: brain-health
+
+# Runs the structural checks of the company-brain plugin on every pull request
+# and once a week. It never edits the brain: it reports.
+
+on:
+  pull_request:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Fetch the company-brain plugin
+        run: git clone --depth 1 https://github.com/mariomile/company-brain ../company-brain
+      - name: Health check
+        run: node ../company-brain/scripts/brain.mjs health --strict
+      - name: Review calendar
+        if: github.event_name != 'pull_request'
+        run: node ../company-brain/scripts/brain.mjs stale

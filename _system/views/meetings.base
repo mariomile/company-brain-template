@@ -1,0 +1,14 @@
+filters:
+  and:
+    - file.hasTag("type/meeting")
+views:
+  - type: table
+    name: Recent
+    order:
+      - file.name
+      - date
+      - project
+      - attendees
+    sort:
+      - property: date
+        direction: DESC

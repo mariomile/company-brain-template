@@ -1,0 +1,15 @@
+filters:
+  and:
+    - file.inFolder("Input")
+    - file.ctime > now() - "14d"
+views:
+  - type: table
+    name: Last 14 days
+    order:
+      - file.name
+      - file.folder
+      - file.ctime
+      - tags
+    sort:
+      - property: file.ctime
+        direction: DESC

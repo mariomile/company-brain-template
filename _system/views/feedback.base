@@ -1,0 +1,13 @@
+filters:
+  and:
+    - file.hasTag("type/feedback")
+views:
+  - type: table
+    name: By area
+    group_by: product_area
+    order:
+      - file.name
+      - date
+      - customer
+      - sentiment
+      - channel

@@ -1,0 +1,14 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.links.length < 2
+    - '!file.inFolder("_system")'
+    - '!file.inFolder(".archive")'
+    - '!file.inFolder("Journal")'
+views:
+  - type: table
+    name: Fewer than 2 outgoing links
+    order:
+      - file.name
+      - file.folder
+      - file.links

@@ -1,0 +1,33 @@
+filters:
+  and:
+    - file.hasTag("type/decision")
+properties:
+  status:
+    displayName: Status
+  decided:
+    displayName: Decided
+  decider:
+    displayName: Decider
+  project:
+    displayName: Project
+views:
+  - type: table
+    name: All decisions
+    order:
+      - file.name
+      - status
+      - decided
+      - decider
+      - project
+    sort:
+      - property: decided
+        direction: DESC
+  - type: table
+    name: Proposed
+    filters:
+      and:
+        - status == "proposed"
+    order:
+      - file.name
+      - decided
+      - decider

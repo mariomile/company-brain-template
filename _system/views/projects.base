@@ -1,0 +1,25 @@
+filters:
+  and:
+    - file.hasTag("type/project")
+properties:
+  status:
+    displayName: Status
+views:
+  - type: cards
+    name: Board
+    group_by: status
+    order:
+      - file.name
+      - owner
+      - review_due
+  - type: table
+    name: Active
+    filters:
+      and:
+        - status == "active"
+    order:
+      - file.name
+      - owner
+      - started
+      - target
+      - review_due

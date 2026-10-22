@@ -1,0 +1,12 @@
+filters:
+  and:
+    - file.hasTag("type/company")
+views:
+  - type: table
+    name: By stage
+    group_by: stage
+    order:
+      - file.name
+      - industry
+      - owner
+      - since

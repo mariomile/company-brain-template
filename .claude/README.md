@@ -1,0 +1,1 @@
+`settings.json` enables the company-brain plugin for every clone of this brain (after the workspace trust dialog). Pin the marketplace to a `sha` once you trust a version. `settings.local.json` is per machine and ignored by git.

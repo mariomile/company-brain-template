@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "company-brain": {
+      "source": {
+        "source": "github",
+        "repo": "mariomile/company-brain"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "company-brain@company-brain": true
+  }
+}

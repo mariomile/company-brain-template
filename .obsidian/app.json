@@ -1,0 +1,10 @@
+{
+  "userIgnoreFilters": [".archive/", "Resources/_attachments/.cache/"],
+  "newFileLocation": "folder",
+  "newFileFolderPath": "_inbox",
+  "attachmentFolderPath": "Resources/_attachments",
+  "useMarkdownLinks": false,
+  "showUnsupportedFiles": true,
+  "alwaysUpdateLinks": true,
+  "strictLineBreaks": false
+}

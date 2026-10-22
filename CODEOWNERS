@@ -1,0 +1,30 @@
+# CODEOWNERS for the company brain.
+# Each line: path pattern, then the GitHub handles that must review changes there.
+# Replace the placeholders. The owner of a living document is also written in its
+# frontmatter (`owner:`); keep the two in sync, this file is what GitHub enforces.
+
+# Contracts and structure: a change here is a decision.
+/AGENTS.md                 @{{owner-brain}}
+/CLAUDE.md                 @{{owner-brain}}
+/CODEOWNERS                @{{owner-brain}}
+/_system/                  @{{owner-brain}}
+
+# Living documents of the company.
+/Knowledge/Company/        @{{owner-company}}
+/Resources/Policies/       @{{owner-company}}
+/Resources/Playbooks/      @{{owner-ops}}
+
+# Decisions: the people who can accept one on the record.
+/Decisions/                @{{owner-company}} @{{owner-brain}}
+
+# Domain knowledge, one owner per domain.
+/Knowledge/Product/        @{{owner-product}}
+/Knowledge/Customers/      @{{owner-product}}
+/Knowledge/Market/         @{{owner-company}}
+/Knowledge/Engineering/    @{{owner-engineering}}
+/Knowledge/Operations/     @{{owner-ops}}
+
+# Relationships.
+/CRM/                      @{{owner-company}}
+
+# Everything else (inputs, projects, journal, output) needs no mandatory review.

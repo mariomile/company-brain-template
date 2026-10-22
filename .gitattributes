@@ -1,0 +1,6 @@
+# Markdown merges line by line; most knowledge conflicts resolve by keeping both.
+*.md text eol=lf merge=union
+*.base text eol=lf
+*.canvas text eol=lf
+# Attachments are binary.
+Resources/_attachments/** binary

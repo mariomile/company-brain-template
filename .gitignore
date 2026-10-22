@@ -1,0 +1,24 @@
+# Obsidian: keep the shared config, drop per-device state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.obsidian/plugins/*/data.json
+.obsidian/plugins/exo-agent/conversations.json
+.obsidian/plugins/exo-agent/sessions/
+
+# Agent runtime state: never shared
+.claude/settings.local.json
+.claude/sessions/
+.claudian/sessions/
+.codex/
+.trash/
+
+# Secrets never enter the brain
+.env
+.env.*
+*.pem
+*.key
+
+# OS
+.DS_Store
+Thumbs.db

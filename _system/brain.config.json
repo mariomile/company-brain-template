@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/mariomile/company-brain/main/references/brain.config.schema.json",
+  "company": "{{company}}",
+  "language": "en",
+  "root_allowlist": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "README.md",
+    "CODEOWNERS",
+    "LICENSE"
+  ],
+  "readonly": [
+    "Input/Meetings/Granola/**",
+    "Input/**/Raw/**",
+    ".archive/**"
+  ],
+  "living_docs": [
+    "Knowledge/Company/**",
+    "Resources/Playbooks/**",
+    "Resources/Policies/**",
+    "Active/Projects/*/*.md",
+    "Active/Goals/**"
+  ],
+  "review_cadence_days": {
+    "type/living": 90,
+    "type/playbook": 180,
+    "type/policy": 365,
+    "type/project": 14,
+    "type/goal": 90,
+    "type/index": 30
+  },
+  "moc_threshold": 50,
+  "input_knowledge_ratio_warn": 2.0,
+  "max_rules": 8,
+  "max_agent_memory_lines": 40,
+  "secret_patterns": [
+    "(?i)(api[_-]?key|secret|token|password)\\s*[:=]\\s*['\"]?[A-Za-z0-9_\\-]{16,}",
+    "sk-[A-Za-z0-9]{20,}",
+    "ghp_[A-Za-z0-9]{30,}",
+    "xox[baprs]-[A-Za-z0-9-]{10,}",
+    "AKIA[0-9A-Z]{16}",
+    "-----BEGIN [A-Z ]*PRIVATE KEY-----"
+  ]
+}

@@ -1,0 +1,32 @@
+filters:
+  or:
+    - file.hasTag("type/living")
+    - file.hasTag("type/playbook")
+    - file.hasTag("type/policy")
+    - file.hasTag("type/project")
+    - file.hasTag("type/goal")
+formulas:
+  stale: 'if(review_due < today(), "stale", "ok")'
+  days_left: 'if(review_due, (review_due - today()).days, "")'
+views:
+  - type: table
+    name: By review date
+    order:
+      - file.name
+      - owner
+      - review_due
+      - formula.days_left
+      - formula.stale
+      - last_verified
+    sort:
+      - property: review_due
+        direction: ASC
+  - type: table
+    name: Stale
+    filters:
+      and:
+        - review_due < today()
+    order:
+      - file.name
+      - owner
+      - review_due

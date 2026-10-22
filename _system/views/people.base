@@ -1,0 +1,27 @@
+filters:
+  and:
+    - file.hasTag("type/person")
+views:
+  - type: table
+    name: Team
+    filters:
+      and:
+        - file.hasTag("crm/team")
+    order:
+      - file.name
+      - role
+      - reports_to
+  - type: table
+    name: External
+    filters:
+      not:
+        - file.hasTag("crm/team")
+    order:
+      - file.name
+      - role
+      - company
+      - last_contact
+      - owner
+    sort:
+      - property: last_contact
+        direction: ASC

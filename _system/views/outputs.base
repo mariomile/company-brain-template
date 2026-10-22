@@ -1,0 +1,14 @@
+filters:
+  or:
+    - file.inFolder("Output")
+    - file.hasTag("type/output")
+views:
+  - type: table
+    name: Deliverables
+    order:
+      - file.name
+      - file.folder
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
