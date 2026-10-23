@@ -8,6 +8,9 @@
 # GitHub enforces this only through pull requests. If you turn on "Require review
 # from Code Owners", also allow direct pushes for the people who use the brain,
 # or every meeting note will need a pull request. Replace the placeholders.
+#
+# Used only when the brain is shared on GitHub ("sharing": "github"). A brain
+# that lives on one machine ignores this file.
 
 # Contracts and structure: a change here is a decision.
 /AGENTS.md                         @{{owner-brain}}

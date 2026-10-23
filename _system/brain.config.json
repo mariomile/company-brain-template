@@ -2,6 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/mariomile/company-brain/main/references/brain.config.schema.json",
   "company": "{{company}}",
   "language": "en",
+  "sharing": "",
   "root_allowlist": [
     "AGENTS.md",
     "CLAUDE.md",

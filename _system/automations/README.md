@@ -21,6 +21,12 @@ All ship **disabled**. Turn them on one at a time, in this order:
 5. `librarian` (act, narrow scope)
 6. `ingest` (propose, needs connected sources in `_system/sources.md`)
 
-**Who runs them.** The template ships `.github/workflows/brain-routines.yml`: GitHub runs them on schedule with Claude Code, posts reports to one rolling issue and opens a pull request for proposals and changes. Any other scheduler works the same way: `brain run <name> | claude -p`, then `brain scope <name>` to check the run stayed inside its scope, then `brain sync`. Exo inside Obsidian reads this folder natively.
+**Who runs them** depends on where the brain lives (`sharing` in `_system/brain.config.json`):
+
+- **On this machine (`local`):** `brain routine <name>` runs Claude Code headless with the automation's prompt, checks the scope with `brain scope` and commits here, pushing nothing. `brain routine <name> --cron --install` schedules it at its `when`, in local time; the machine must be on at that time. Logs go to `~/.company-brain/logs/`. A run that fails or leaves its scope commits nothing and holds the routines until a person reviews and runs `brain sync`.
+- **On GitHub (`github`):** `.github/workflows/brain-routines.yml` runs them on schedule with Claude Code, posts reports to one rolling issue and opens a pull request for proposals and changes.
+- **Anywhere else:** `brain run <name> | claude -p`, then `brain scope <name>`, then `brain sync`. Exo inside Obsidian reads this folder natively.
+
+The `setup` skill turns the first one on with you.
 
 Each file ends with `## Lessons`: what this run learned about doing its job here, a few lines, replaced rather than appended. Facts about the company never go there.

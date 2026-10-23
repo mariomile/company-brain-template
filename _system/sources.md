@@ -16,6 +16,8 @@ review_due: {{review-date}}
 | Wiki | documents | Notion MCP, pages listed below | `Input/Documents/Raw/` | internal | {{owner-brain}} | paused | |
 | Support | feedback | helpdesk MCP or export | `Input/Feedback/Raw/` | internal | {{owner-brain}} | paused | |
 
+**Start with the meeting recorder:** it is the richest source, and every meeting it brings becomes minutes, decisions and open loops. Then chat, tickets, documents, support. The `setup` skill connects them one at a time.
+
 **Kinds:** `meetings` go to minutes (`company-brain:meeting`), everything else to triage (`company-brain:capture`). **Status:** `active` sources are pulled by the ingest run; `paused` ones are not. **Last sync:** `YYYY-MM-DD HH:MM`, written by the agent after a successful pull.
 
 ## Scope per source

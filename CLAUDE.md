@@ -6,6 +6,10 @@ rule or precedence.
 
 ## Entry point
 
+- **First session, or the briefing says `Setup: N step(s) left`:** offer
+  `/company-brain:setup` before other work. It walks every step: where the
+  brain lives (this machine or GitHub), onboarding, input sources, routines,
+  owners, health. Re-running it skips what is done.
 - **With the `company-brain` plugin installed:** the session-start hook injects
   the `using-company-brain` skill and a briefing (stale documents, inbox,
   loops due, proposals waiting). Do not re-read what it injected. Load

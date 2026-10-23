@@ -17,16 +17,22 @@ This repository is the **template**: the structure, the contracts and the agent 
 
 You need [Claude Code](https://code.claude.com) and [Node.js](https://nodejs.org) 18 or newer on every machine that works on the brain: the plugin's guard and checks run on Node, and without it they are switched off.
 
-1. **Use this template** on GitHub into a private repository of your organization. One brain per trust boundary: everyone with the repository sees everything in it.
-2. **Clone it and open it in Claude Code.** The repository's `.claude/settings.json` offers the plugin on first open. Or install it by hand:
+1. **Get the template.** To share it with the team: **Use this template** on GitHub into a private repository of your organization, then clone it. To keep it on your machine for now: clone it, delete `.git`, `git init`. One brain per trust boundary: everyone with the repository sees everything in it.
+2. **Open the folder in Claude Code.** Its `.claude/settings.json` offers the plugin on first open: accept. Or install it by hand:
    ```
    /plugin marketplace add mariomile/company-brain
    /plugin install company-brain@company-brain
    ```
-3. **Onboard:** `/company-brain:onboard`. Give it your website, a pitch deck, a docs folder or an export, whatever you have. It drafts `ORG.md`, `NOW.md`, the five living documents, the team and the current projects from that material, then asks you to confirm or fix about ten things. It archives the sample notes when your real ones exist. Twenty minutes with good material, longer from scratch.
-4. **Fill `CODEOWNERS`** with the GitHub handles of the owners you named.
-5. **Check:** `/company-brain:maintain` runs the health check. After onboarding it should report no errors; the only warnings left are the ones it names as yours to decide.
-6. **Optional:** open the folder in Obsidian (File, Open folder as vault: Bases, daily notes and templates are set up), and turn on the scheduled routines (below).
+3. **Run `/company-brain:setup`.** It walks every step and skips what is done, so you can stop and run it again:
+   - where the brain lives: on this machine or on GitHub;
+   - the company: it drafts `ORG.md`, `NOW.md`, the five living documents, the team, the projects and the decisions from your material (a website, a deck, a docs folder, an export, a whole vault), archives the sample notes, then asks you to confirm or fix about ten things;
+   - the input sources, the meeting recorder (Granola or yours) first, with a first pull so you see it work;
+   - the routines, the morning brief first, run once with you and then scheduled;
+   - the owners in `CODEOWNERS`, if the brain is on GitHub;
+   - a health check with no errors.
+
+   `brain setup` prints the same checklist at any time.
+4. **Optional:** open the folder in Obsidian (File, Open folder as vault: Bases, daily notes and templates are set up).
 
 ## Daily use
 
@@ -46,7 +52,7 @@ Every answer cites its sources. If the brain does not know, it says so and propo
 
 ## Working together
 
-Two lanes:
+A brain that lives on one machine has one lane: `brain sync` commits there and pushes nothing. On GitHub, two lanes:
 
 - **Day-to-day knowledge goes straight to main.** Minutes, inputs, proposed decisions, CRM, project notes, the journal. The agent runs `brain sync` after it writes: pull, commit, push. Nobody waits for a review to save a meeting.
 - **What changes how the company works goes through a pull request** reviewed by its owner: the living documents, policies, playbooks and the brain's own contracts (`CODEOWNERS` lists them). Agents never rewrite these; they propose.
@@ -55,7 +61,10 @@ The guard hook checks every write an agent makes with its file tools. It does no
 
 ## Scheduled routines
 
-`.github/workflows/brain-routines.yml` runs the automations in `_system/automations/` on GitHub with Claude Code: the morning brief, inbox triage, meeting minutes, ingest, the weekly review, the librarian. Each one runs only when its file says `enabled: true`. Reports land on a rolling issue; proposals and changes arrive as a pull request for their owners. To turn them on: add the `ANTHROPIC_API_KEY` secret (or `CLAUDE_CODE_OAUTH_TOKEN`), allow Actions to create pull requests, set `enabled: true` in one automation, and run it once by hand from the Actions tab before trusting the schedule.
+The automations in `_system/automations/` (the morning brief, inbox triage, meeting minutes, ingest, the weekly review, the librarian) ship off. Each runs only when its file says `enabled: true`; `setup` turns the first one on with you.
+
+- **Brain on your machine:** `brain routine <name>` runs one with Claude Code, checks it stayed inside its scope and commits locally. `brain routine <name> --cron` prints the crontab line that schedules it; the machine must be on at that time.
+- **Brain on GitHub:** `.github/workflows/brain-routines.yml` runs them with Claude Code. Reports land on a rolling issue; proposals and changes arrive as a pull request for their owners. It needs the `ANTHROPIC_API_KEY` secret (or `CLAUDE_CODE_OAUTH_TOKEN`) and Actions allowed to create pull requests. Run each one once by hand from the Actions tab before trusting the schedule.
 
 ## How it grows and stays true
 

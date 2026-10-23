@@ -20,6 +20,24 @@ Read, unless the runtime already injected them:
 5. On a scheduled run: your automation file in `_system/automations/`
 6. The note of the project you work on: `Active/Projects/<Project>/<Project>.md`
 
+## Setup comes first
+
+A brain fed only by hand goes stale within weeks, and one no routine checks
+drifts. Until `brain setup` (from the `company-brain` plugin) shows every step
+done, offer the setup before other work: with the plugin, the `setup` skill;
+without it, `README.md`, section Setup. What it recommends, in this order:
+
+1. Decide where the brain lives: on one machine (`"sharing": "local"` in
+   `_system/brain.config.json`) or shared on GitHub (`"sharing": "github"`).
+2. Fill the company in: ORG, NOW, the living documents, from the company's own
+   material.
+3. Connect the input sources in `_system/sources.md`, the meeting recorder
+   (Granola or the one the team uses) first, then chat, tickets, documents,
+   support.
+4. Turn on the routines in `_system/automations/`, the morning brief first,
+   then one more a week: on this machine (`brain routine`) or on GitHub
+   (`.github/workflows/brain-routines.yml`).
+
 To orient yourself: `_system/brain-context.md` (the map). For commitments across
 sessions: `_system/memory/open-loops.md`. For the full design and its reasons:
 `_system/Brain Blueprint.md`.
