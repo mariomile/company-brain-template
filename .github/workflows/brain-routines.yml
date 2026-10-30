@@ -31,6 +31,12 @@ on:
         required: true
         options: [morning-brief, inbox-triage, meeting-minutes, ingest, weekly-review, librarian]
 
+# The company-brain plugin is pinned to one commit, so a change to its main
+# branch never reaches this brain (or its secrets) until you choose to update.
+# To update: replace the SHA with the commit of a newer company-brain release.
+env:
+  COMPANY_BRAIN_REF: a14a64c115e6fe150e50bfae3e3515075c5faa26 # v0.3.0
+
 concurrency:
   group: brain-routines
   cancel-in-progress: false
@@ -90,7 +96,12 @@ jobs:
         with:
           node-version: "22"
       - name: Fetch the company-brain script
-        run: git clone --depth 1 https://github.com/mariomile/company-brain "$RUNNER_TEMP/company-brain"
+        run: |
+          D="$RUNNER_TEMP/company-brain"
+          git init -q "$D"
+          git -C "$D" fetch -q --depth 1 https://github.com/mariomile/company-brain "$COMPANY_BRAIN_REF"
+          git -C "$D" checkout -q FETCH_HEAD
+          test "$(git -C "$D" rev-parse HEAD)" = "$COMPANY_BRAIN_REF"
       - name: Build the prompt
         id: prompt
         run: |
@@ -109,7 +120,7 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          plugin_marketplaces: https://github.com/mariomile/company-brain.git
+          plugin_marketplaces: ${{ runner.temp }}/company-brain
           plugins: company-brain@company-brain
           prompt: ${{ steps.prompt.outputs.text }}
           claude_args: |

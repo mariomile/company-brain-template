@@ -10,6 +10,12 @@ on:
     - cron: "0 7 * * 1"
   workflow_dispatch:
 
+# The company-brain plugin is pinned to one commit, so a change to its main
+# branch never reaches this brain (or its secrets) until you choose to update.
+# To update: replace the SHA with the commit of a newer company-brain release.
+env:
+  COMPANY_BRAIN_REF: a14a64c115e6fe150e50bfae3e3515075c5faa26 # v0.3.0
+
 jobs:
   health:
     runs-on: ubuntu-latest
@@ -19,7 +25,12 @@ jobs:
         with:
           node-version: "22"
       - name: Fetch the company-brain plugin
-        run: git clone --depth 1 https://github.com/mariomile/company-brain "$RUNNER_TEMP/company-brain"
+        run: |
+          D="$RUNNER_TEMP/company-brain"
+          git init -q "$D"
+          git -C "$D" fetch -q --depth 1 https://github.com/mariomile/company-brain "$COMPANY_BRAIN_REF"
+          git -C "$D" checkout -q FETCH_HEAD
+          test "$(git -C "$D" rev-parse HEAD)" = "$COMPANY_BRAIN_REF"
       - name: Health check
         run: |
           B="node $RUNNER_TEMP/company-brain/scripts/brain.mjs"
